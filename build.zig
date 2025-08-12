@@ -72,6 +72,8 @@ pub fn build(b: *std.Build) !void {
             try c_source_files.append("src/base/ftdebug.c");
         },
         .linux => {
+            mod.addCMacro("HAVE_UNISTD_H", "1");
+            mod.addCMacro("HAVE_FCNTL_H", "1");
             try c_source_files.append("builds/unix/ftsystem.c");
             try c_source_files.append("src/base/ftdebug.c");
         },
