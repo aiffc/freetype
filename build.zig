@@ -1,17 +1,21 @@
 const std = @import("std");
 const builtin = @import("builtin");
 
-pub fn build(b: *std.Build) void {
+pub fn build(b: *std.Build) !void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
+    const mod = b.createModule(.{
+        .target = target,
+        .optimize = optimize,
+        .link_libc = true,
+    });
+
+    mod.addCMacro("FT2_BUILD_LIBRARY", "1");
+
     const lib = b.addLibrary(.{
         .name = "freetype",
-        .root_module = b.createModule(.{
-            .target = target,
-            .optimize = optimize,
-            .link_libc = true,
-        }),
+        .root_module = mod,
     });
 
     var c_source_files = try std.ArrayList([]const u8).initCapacity(b.allocator, 40);
