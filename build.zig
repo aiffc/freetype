@@ -68,6 +68,7 @@ pub fn build(b: *std.Build) !void {
             try c_source_files.append("builds/windows/ftdebug.c");
         },
         .macos => {
+            mod.addIncludePath(b.path("src/base/"));
             try c_source_files.append("builds/mac/ftmac.c");
             try c_source_files.append("src/base/ftdebug.c");
         },
